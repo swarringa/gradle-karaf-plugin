@@ -30,9 +30,9 @@ ext {
     isSnapshotVersion = version.endsWith("SNAPSHOT")
     isCI              = Boolean.valueOf("$System.env.CI")
     isPR              = "false" != System.env.PR 
-    gitRoot           = "https://github.com/lburgazzoli"
-    gitProject        = "https://github.com/lburgazzoli/gradle-karaf-plugin"
-    gitURL            = "git@github.com:lburgazzoli/gradle-karaf-plugin"
+    gitRoot           = "https://github.com/swarringa"
+    gitProject        = "https://github.com/swarringa/gradle-karaf-plugin"
+    gitURL            = "git@github.com:swarringa/gradle-karaf-plugin"
     groovyVersion     = GroovySystem.version.replaceAll(/\.\d+$/,'')
     gradleScriptDir   = "${rootProject.projectDir}/gradle"
     gradlePluginId    = "com.github.lburgazzoli.karaf"
@@ -211,6 +211,41 @@ publishing {
     publications {
         gradlePlugin(MavenPublication) {
             from(components.java)
+
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+
+            pom {
+                name = project.name
+                description = project.name
+                url = project.gitProject
+
+                scm {
+                    url = project.gitProject
+                    connection = "scm:${project.gitProject}"
+                    developerConnection = "scm:${project.gitURL}"
+                }
+
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'lburgazzoli'
+                        name = 'Luca Burgazzoli'
+                    }
+                    developer {
+                        id = 'swarringa'
+                        name = 'Stefan Warringa'
+                    }
+                }
+            }
         }
     }
     repositories {
